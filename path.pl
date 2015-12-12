@@ -2,31 +2,11 @@
 
 :- [graph].
 
-%% v(0).
-%% v(1).
-%% v(2).
-%% v(3).
-%% v(4).
-%% v(5).
-%% v(6).
-
-%% e(0, 1, 0.5).
-%% e(1, 5, 0.7).
-%% e(1, 3, 0.2).
-%% e(2, 0, 0.2).
-%% e(2, 4, 1.2).
-%% e(3, 2, 1).
-%% e(3, 4, 1.5).
-%% e(4, 5, 3).
-%% e(5, 0, 2).
-%% e(5, 6, 2).
-
 infinity(10).
 
-% navštíven
 :- dynamic visited/1.
 
-% vzdálenost do vrcholu
+% distance to vertex
 :- dynamic d/3.
 
 get_dist(U, D, F) :- d(U, D, F) -> ! ; infinity(D), F is 0.
@@ -34,7 +14,7 @@ set_dist(U, D, F) :- asserta(d(U, D, F)), !.
 
 :- discontiguous set_dist/3.
 
-% najít nejbližší
+% find closest vertex
 extract_min(V) :- infinity(Dold), extract_min(V, _, Dold).
 extract_min(V, D, Dold) :- v(V1), not(visited(V1)), get_dist(V1, D1, _),
 			   D1 < Dold
@@ -52,6 +32,7 @@ search_graph() :- extract_min(U), asserta(visited(U)),
 
 search_graph(U) :- set_dist(U, 0, U), not(search_graph()).
 
-trace_path(U, V, P) :- var(P), trace_path(U, V, []), !. % begin
-trace_path(U, V, P) :- U =:= V, write([U|P]), !.     % end
-trace_path(U, V, P) :- get_dist(V, _, Fv), trace_path(U, Fv, [V|P]). % trace
+trace_path(U, V, P, _) :- var(P), trace_path(U, V, [], 0), !. % begin
+trace_path(U, V, P, D) :- U =:= V, write([U|P]), nl, write(D), !.     % end
+trace_path(U, V, P, D) :- get_dist(V, Dv, Fv), Dsub is D+Dv,
+			  trace_path(U, Fv, [V|P], Dsub). % trace
