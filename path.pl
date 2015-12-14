@@ -2,7 +2,7 @@
 
 :- [graph].
 
-infinity(10).
+infinity(10000).
 
 :- dynamic visited/1.
 
@@ -32,7 +32,6 @@ search_graph() :- extract_min(U), asserta(visited(U)),
 
 search_graph(U) :- set_dist(U, 0, U), not(search_graph()).
 
-trace_path(U, V, P, _) :- var(P), trace_path(U, V, [], 0), !. % begin
-trace_path(U, V, P, D) :- U =:= V, write([U|P]), nl, write(D), !.     % end
-trace_path(U, V, P, D) :- get_dist(V, Dv, Fv), Dsub is D+Dv,
-			  trace_path(U, Fv, [V|P], Dsub). % trace
+trace_path(U, V, P, _) :- var(P), get_dist(V, D, _), trace_path(U, V, [], D), !. % begin
+trace_path(U, V, P, D) :- U =:= V, Dout is D,  format('Path = ~w~nLength = ~4f', [[U|P], Dout]), !. % end
+trace_path(U, V, P, D) :- get_dist(V, _, Fv), trace_path(U, Fv, [V|P], D). % trace
