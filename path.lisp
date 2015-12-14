@@ -1,5 +1,4 @@
 (defconstant INFINITY 10000)
-(defconstant VERTEX_COUNT 7)
 
 (defstruct graph-data
   to_vertex
@@ -11,46 +10,8 @@
   vertex
   )
 
-(setf graph (make-array (list VERTEX_COUNT)))
 
-(setf (aref graph 0)
-  (list (make-graph-data :to_vertex 1 :weight 0.5)
-  )
-)
-
-(setf (aref graph 1)
-  (list (make-graph-data :to_vertex 3 :weight 0.2)
-				(make-graph-data :to_vertex 5 :weight 0.7)
-  )
-)
-
-(setf (aref graph 2)
-  (list (make-graph-data :to_vertex 0 :weight 0.2)
-				(make-graph-data :to_vertex 4 :weight 1.2)
-  )
-)
-
-(setf (aref graph 3)
-  (list (make-graph-data :to_vertex 2 :weight 1)
-				(make-graph-data :to_vertex 4 :weight 1.5)
-  )
-)
-
-(setf (aref graph 4)
-  (list (make-graph-data :to_vertex 5 :weight 3)
-  )
-)
-
-(setf (aref graph 5)
-  (list (make-graph-data :to_vertex 6 :weight 2)
-				(make-graph-data :to_vertex 0 :weight 2)
-  )
-)
-
-(setf (aref graph 6)
-  (list (make-graph-data :to_vertex 6 :weight 0)
-  )
-)
+(load "graph.lisp")
 
 ; relaxed vertex distances
 (setf relax (make-array (list VERTEX_COUNT)))
@@ -115,5 +76,5 @@
     (setq path (cons x path))
     (when (= u x) (return))
   )
-  (format nil "Path = ~S~%Length = ~D" path distance)
+  (format t "Path = ~S~%Length = ~D" path distance)
 )
