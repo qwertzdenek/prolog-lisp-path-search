@@ -30,15 +30,15 @@
             (make-relax-data :distance d :vertex fr)))
 
 (defun extract_min ()
-	(setq min_d INFINITY)
-	(setq min_v 0)
-	(loop for v in vertex_list do
-		(setq v_relax (get_dist v))
+  (setq min_d INFINITY)
+  (setq min_v 0)
+  (loop for v in vertex_list do
+    (setq v_relax (get_dist v))
     (setq dv (relax-data-distance v_relax))
-		(if (< dv min_d) (list (setq min_d dv) (setq min_v v)))
-	)
+    (if (< dv min_d) (list (setq min_d dv) (setq min_v v)))
+  )
   (setq vertex_list (delete min_v vertex_list))
-	(symbol-value 'min_v)
+  (symbol-value 'min_v)
 )
 
 (defun search_graph (u)
